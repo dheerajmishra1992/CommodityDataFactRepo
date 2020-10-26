@@ -4,6 +4,7 @@
 		"activities": [
 			{
 				"name": "last3commodity",
+				"description": "test",
 				"type": "Copy",
 				"dependsOn": [],
 				"policy": {
