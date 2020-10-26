@@ -1,0 +1,21 @@
+{
+	"name": "CommodityHttpDataSet",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "commodityapils",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "HttpServerLocation"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"quoteChar": "\""
+		},
+		"schema": []
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

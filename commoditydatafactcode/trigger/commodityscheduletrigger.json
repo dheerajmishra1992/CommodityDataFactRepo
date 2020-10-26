@@ -1,0 +1,39 @@
+{
+	"name": "commodityscheduletrigger",
+	"properties": {
+		"annotations": [],
+		"runtimeState": "Started",
+		"pipelines": [
+			{
+				"pipelineReference": {
+					"referenceName": "httptodatalake",
+					"type": "PipelineReference"
+				}
+			},
+			{
+				"pipelineReference": {
+					"referenceName": "commoditybackuppipeline",
+					"type": "PipelineReference"
+				}
+			}
+		],
+		"type": "ScheduleTrigger",
+		"typeProperties": {
+			"recurrence": {
+				"frequency": "Day",
+				"interval": 1,
+				"startTime": "2020-10-05T16:42:00Z",
+				"timeZone": "UTC",
+				"schedule": {
+					"minutes": [
+						0
+					],
+					"hours": [
+						13,
+						18
+					]
+				}
+			}
+		}
+	}
+}

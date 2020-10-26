@@ -1,0 +1,64 @@
+{
+	"name": "ds_inputcommodityfolder",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureDataLakeStore",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureDataLakeStoreLocation",
+				"folderPath": "commodityrawdata"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": [
+			{
+				"name": "timestamp",
+				"type": "String"
+			},
+			{
+				"name": "state",
+				"type": "String"
+			},
+			{
+				"name": "district",
+				"type": "String"
+			},
+			{
+				"name": "market",
+				"type": "String"
+			},
+			{
+				"name": "commodity",
+				"type": "String"
+			},
+			{
+				"name": "variety",
+				"type": "String"
+			},
+			{
+				"name": "arrival_date",
+				"type": "String"
+			},
+			{
+				"name": "min_price",
+				"type": "String"
+			},
+			{
+				"name": "max_price",
+				"type": "String"
+			},
+			{
+				"name": "modal_price",
+				"type": "String"
+			}
+		]
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

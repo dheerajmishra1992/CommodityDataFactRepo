@@ -1,0 +1,30 @@
+{
+	"name": "commoditybackupdataset",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureDataLakeStore",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureDataLakeStoreLocation",
+				"fileName": {
+					"value": "@concat(formatDateTime(utcnow(),'dd-MM-yyyy'),'.csv')",
+					"type": "Expression"
+				},
+				"folderPath": {
+					"value": "@concat('commoditybackup','/',formatDateTime(utcnow(),'yyyy'),'/',formatDateTime(utcnow(),'MM'),'/',formatDateTime(utcnow(),'dd-MM-yyyy'))",
+					"type": "Expression"
+				}
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": []
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

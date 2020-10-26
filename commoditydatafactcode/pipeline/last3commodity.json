@@ -1,0 +1,78 @@
+{
+	"name": "last3commodity",
+	"properties": {
+		"activities": [
+			{
+				"name": "last3commodity",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "DelimitedTextSource",
+						"storeSettings": {
+							"type": "AzureDataLakeStoreReadSettings",
+							"recursive": true,
+							"modifiedDatetimeStart": {
+								"value": "@adddays(formatDateTime(convertFromUtc(utcnow(),'India Standard Time')),-3)",
+								"type": "Expression"
+							},
+							"modifiedDatetimeEnd": {
+								"value": "@adddays(formatDateTime(convertFromUtc(utcnow(),'India Standard Time')),0)",
+								"type": "Expression"
+							},
+							"wildcardFolderPath": "commodityrawdata",
+							"wildcardFileName": "*.csv"
+						},
+						"formatSettings": {
+							"type": "DelimitedTextReadSettings"
+						}
+					},
+					"sink": {
+						"type": "DelimitedTextSink",
+						"storeSettings": {
+							"type": "AzureDataLakeStoreWriteSettings",
+							"copyBehavior": "MergeFiles"
+						},
+						"formatSettings": {
+							"type": "DelimitedTextWriteSettings",
+							"quoteAllText": true,
+							"fileExtension": ".txt"
+						}
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"typeConversion": true,
+						"typeConversionSettings": {
+							"allowDataTruncation": true,
+							"treatBooleanAsNumber": false
+						}
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "ds_inputcommodityfolder",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "lastncommoditydataset",
+						"type": "DatasetReference"
+					}
+				]
+			}
+		],
+		"annotations": [],
+		"lastPublishTime": "2020-10-16T07:29:33Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

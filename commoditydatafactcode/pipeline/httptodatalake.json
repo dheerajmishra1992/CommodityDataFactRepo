@@ -1,0 +1,73 @@
+{
+	"name": "httptodatalake",
+	"properties": {
+		"activities": [
+			{
+				"name": "Copy commodity data to lake",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 1,
+					"retryIntervalInSeconds": 300,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "DelimitedTextSource",
+						"storeSettings": {
+							"type": "HttpReadSettings",
+							"requestMethod": "GET"
+						},
+						"formatSettings": {
+							"type": "DelimitedTextReadSettings"
+						}
+					},
+					"sink": {
+						"type": "DelimitedTextSink",
+						"storeSettings": {
+							"type": "AzureDataLakeStoreWriteSettings"
+						},
+						"formatSettings": {
+							"type": "DelimitedTextWriteSettings",
+							"quoteAllText": true,
+							"fileExtension": ".csv"
+						}
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"typeConversion": true,
+						"typeConversionSettings": {
+							"allowDataTruncation": true,
+							"treatBooleanAsNumber": false
+						}
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "CommodityHttpDataSet",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "CommodityStoreDataset",
+						"type": "DatasetReference",
+						"parameters": {
+							"filename": {
+								"value": "@concat('commodity','_',formatDateTime(convertFromUTC(utcnow(),'India Standard Time'),'dd-MM-yyyy_hh'),'.csv')",
+								"type": "Expression"
+							}
+						}
+					}
+				]
+			}
+		],
+		"annotations": [],
+		"lastPublishTime": "2020-10-18T12:58:16Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}
