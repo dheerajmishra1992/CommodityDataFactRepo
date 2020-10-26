@@ -1,0 +1,30 @@
+{
+	"$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"value": "commoditydatafactory"
+		},
+		"AzureDataLakeStore_servicePrincipalKey": {
+			"value": ""
+		},
+		"AzureDataLakeStore_properties_typeProperties_dataLakeStoreUri": {
+			"value": "https://commoditydatalake.azuredatalakestore.net/webhdfs/v1"
+		},
+		"AzureDataLakeStore_properties_typeProperties_servicePrincipalId": {
+			"value": "ee149afd-9918-418e-a2af-4eedf935b250"
+		},
+		"AzureDataLakeStore_properties_typeProperties_tenant": {
+			"value": "842b637b-935b-4a2b-99aa-559fe5024c67"
+		},
+		"AzureDataLakeStore_properties_typeProperties_subscriptionId": {
+			"value": "bee17de5-4061-4f81-906c-75e2a3209662"
+		},
+		"AzureDataLakeStore_properties_typeProperties_resourceGroupName": {
+			"value": "rs-training"
+		},
+		"commodityapils_properties_typeProperties_url": {
+			"value": "https://api.data.gov.in/resource/9ef84268-d588-465a-a308-a864a43d0070?api-key=579b464db66ec23bdd00000147c9b85db8cc419a6de5754298ed72a1&format=csv&offset=0&limit=10000"
+		}
+	}
+}
