@@ -1,10 +1,6 @@
 {
 	"name": "CommodityStoreDataset",
 	"properties": {
-		"linkedServiceName": {
-			"referenceName": "AzureDataLakeStore",
-			"type": "LinkedServiceReference"
-		},
 		"parameters": {
 			"filename": {
 				"type": "string"
