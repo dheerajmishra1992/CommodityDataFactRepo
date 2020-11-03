@@ -1,6 +1,10 @@
 {
 	"name": "ds_inputcommodityfolder",
 	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureDataLakeStoreLS",
+			"type": "LinkedServiceReference"
+		},
 		"annotations": [],
 		"type": "DelimitedText",
 		"typeProperties": {

@@ -21,14 +21,6 @@
 						"storeSettings": {
 							"type": "AzureDataLakeStoreReadSettings",
 							"recursive": true,
-							"modifiedDatetimeStart": {
-								"value": "@adddays(formatDateTime(convertFromUtc(utcnow(),'India Standard Time')),-3)",
-								"type": "Expression"
-							},
-							"modifiedDatetimeEnd": {
-								"value": "@adddays(formatDateTime(convertFromUtc(utcnow(),'India Standard Time')),0)",
-								"type": "Expression"
-							},
 							"wildcardFolderPath": "commodityrawdata",
 							"wildcardFileName": "*.csv"
 						},
