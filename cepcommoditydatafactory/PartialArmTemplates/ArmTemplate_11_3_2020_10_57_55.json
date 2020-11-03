@@ -1,0 +1,37 @@
+{
+	"$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"type": "string",
+			"metadata": "Data Factory name",
+			"defaultValue": "cepcommoditydatafactory"
+		}
+	},
+	"variables": {
+		"factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
+	},
+	"resources": [
+		{
+			"name": "[concat(parameters('factoryName'), '/AzureDataLakeStoreLS')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureDataLakeStore",
+				"typeProperties": {
+					"dataLakeStoreUri": "https://commoditydatalake.azuredatalakestore.net/webhdfs/v1",
+					"servicePrincipalId": "5fb1e707-c6bf-4f63-bd6e-a02a3a8169b4",
+					"servicePrincipalKey": {
+						"type": "SecureString",
+						"value": "**********"
+					},
+					"tenant": "74ffd735-2e9a-4b79-9275-f2cbb8540eed",
+					"subscriptionId": "0548d595-4741-4418-a85c-2e74933d2a15",
+					"resourceGroupName": "rs-training"
+				}
+			},
+			"dependsOn": []
+		}
+	]
+}
