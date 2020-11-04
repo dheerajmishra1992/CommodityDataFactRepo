@@ -1,0 +1,30 @@
+{
+	"name": "CommodityRead",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureDataLakeStoreLS",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"LastDays": {
+				"type": "int"
+			}
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureDataLakeStoreLocation",
+				"folderPath": {
+					"value": "@concat('commodityrawdata/', formatDateTime(adddays(utcnow(), mul(dataset().LastDays, -1)), 'dd/MM/yyyy'))",
+					"type": "Expression"
+				}
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": []
+	}
+}
