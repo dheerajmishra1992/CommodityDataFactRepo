@@ -1,0 +1,30 @@
+{
+	"name": "CommodityWriteDS",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureDataLakeStoreLS",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"LastDaysW": {
+				"type": "int"
+			}
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureDataLakeStoreLocation",
+				"folderPath": {
+					"value": "@concat('commoditydata/output/', formatDateTime(adddays(utcnow(), mul(dataset().LastDaysW, -1)), 'dd/MM/yyyy'))",
+					"type": "Expression"
+				}
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": []
+	}
+}
