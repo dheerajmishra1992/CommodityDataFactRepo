@@ -8,6 +8,10 @@
 				"dependsOn": [],
 				"userProperties": [],
 				"typeProperties": {
+					"expression": {
+						"value": "@equals(variables('VarDays'),0)",
+						"type": "Expression"
+					},
 					"activities": [
 						{
 							"name": "If Condition1",
