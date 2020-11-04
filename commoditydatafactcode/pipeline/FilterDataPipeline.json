@@ -80,7 +80,7 @@
 									"storeSettings": {
 										"type": "AzureDataLakeStoreReadSettings",
 										"recursive": true,
-										"wildcardFileName": "*/csv"
+										"wildcardFileName": "*.csv"
 									},
 									"formatSettings": {
 										"type": "DelimitedTextReadSettings"
