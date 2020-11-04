@@ -1,0 +1,91 @@
+{
+	"$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"type": "string",
+			"metadata": "Data Factory name",
+			"defaultValue": "cepcommoditydatafactory"
+		},
+		"AzureDataLakeStoreLS_servicePrincipalKey": {
+			"type": "secureString",
+			"metadata": "Secure string for 'servicePrincipalKey' of 'AzureDataLakeStoreLS'"
+		},
+		"AzureDataLakeStoreLS_properties_typeProperties_dataLakeStoreUri": {
+			"type": "string",
+			"defaultValue": "https://commoditydatalake.azuredatalakestore.net/webhdfs/v1"
+		},
+		"AzureDataLakeStoreLS_properties_typeProperties_servicePrincipalId": {
+			"type": "string",
+			"defaultValue": "5fb1e707-c6bf-4f63-bd6e-a02a3a8169b4"
+		},
+		"AzureDataLakeStoreLS_properties_typeProperties_tenant": {
+			"type": "string",
+			"defaultValue": "74ffd735-2e9a-4b79-9275-f2cbb8540eed"
+		},
+		"AzureDataLakeStoreLS_properties_typeProperties_subscriptionId": {
+			"type": "string",
+			"defaultValue": "0548d595-4741-4418-a85c-2e74933d2a15"
+		},
+		"AzureDataLakeStoreLS_properties_typeProperties_resourceGroupName": {
+			"type": "string",
+			"defaultValue": "rs-training"
+		},
+		"commodityapils_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://api.data.gov.in/resource/9ef84268-d588-465a-a308-a864a43d0070?api-key=579b464db66ec23bdd00000147c9b85db8cc419a6de5754298ed72a1&format=csv&offset=0&limit=10000"
+		},
+		"containerUri": {
+			"type": "string",
+			"metadata": "URI to storage account containing linked ARM templates"
+		},
+		"containerSasToken": {
+			"type": "string",
+			"metadata": "Sas token to storage account containing linked ARM templates"
+		}
+	},
+	"variables": {
+		"factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
+	},
+	"resources": [
+		{
+			"name": "cepcommoditydatafactory_ArmTemplate_0",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2018-02-01",
+			"properties": {
+				"mode": "incremental",
+				"templateLink": {
+					"uri": "[concat(parameters('containerUri'), '/ArmTemplate_0.json', parameters('containerSasToken'))]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"factoryName": {
+						"value": "[parameters('factoryName')]"
+					},
+					"AzureDataLakeStoreLS_servicePrincipalKey": {
+						"value": "[parameters('AzureDataLakeStoreLS_servicePrincipalKey')]"
+					},
+					"AzureDataLakeStoreLS_properties_typeProperties_dataLakeStoreUri": {
+						"value": "[parameters('AzureDataLakeStoreLS_properties_typeProperties_dataLakeStoreUri')]"
+					},
+					"AzureDataLakeStoreLS_properties_typeProperties_servicePrincipalId": {
+						"value": "[parameters('AzureDataLakeStoreLS_properties_typeProperties_servicePrincipalId')]"
+					},
+					"AzureDataLakeStoreLS_properties_typeProperties_tenant": {
+						"value": "[parameters('AzureDataLakeStoreLS_properties_typeProperties_tenant')]"
+					},
+					"AzureDataLakeStoreLS_properties_typeProperties_subscriptionId": {
+						"value": "[parameters('AzureDataLakeStoreLS_properties_typeProperties_subscriptionId')]"
+					},
+					"AzureDataLakeStoreLS_properties_typeProperties_resourceGroupName": {
+						"value": "[parameters('AzureDataLakeStoreLS_properties_typeProperties_resourceGroupName')]"
+					},
+					"commodityapils_properties_typeProperties_url": {
+						"value": "[parameters('commodityapils_properties_typeProperties_url')]"
+					}
+				}
+			},
+			"dependsOn": []
+		}
+	]
+}
