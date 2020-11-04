@@ -585,7 +585,7 @@
 					"recurrence": {
 						"frequency": "Day",
 						"interval": 1,
-						"startTime": "2020-10-05T16:42:00Z",
+						"startTime": "2020-11-04T16:42:00Z",
 						"timeZone": "UTC",
 						"schedule": {
 							"minutes": [
@@ -640,6 +640,283 @@
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/ds_inputcommodityfolder')]",
 				"[concat(variables('factoryId'), '/datasets/lastncommoditydataset')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/FilterDataPipeline')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "Until1",
+						"type": "Until",
+						"dependsOn": [],
+						"userProperties": [],
+						"typeProperties": {
+							"expression": {
+								"value": "@equals(variables('VarDays'),0)",
+								"type": "Expression"
+							},
+							"activities": [
+								{
+									"name": "If Condition1",
+									"type": "IfCondition",
+									"dependsOn": [],
+									"userProperties": [],
+									"typeProperties": {
+										"expression": {
+											"value": "@equals(variables('VarDays'),0)",
+											"type": "Expression"
+										},
+										"ifFalseActivities": [
+											{
+												"name": "Set variable2",
+												"type": "SetVariable",
+												"dependsOn": [],
+												"userProperties": [],
+												"typeProperties": {
+													"variableName": "VarDays",
+													"value": {
+														"value": "@variables('VarDecDays')",
+														"type": "Expression"
+													}
+												}
+											}
+										],
+										"ifTrueActivities": [
+											{
+												"name": "Set variable1",
+												"type": "SetVariable",
+												"dependsOn": [],
+												"userProperties": [],
+												"typeProperties": {
+													"variableName": "VarDays",
+													"value": {
+														"value": "@string(pipeline().parameters.DaysP)",
+														"type": "Expression"
+													}
+												}
+											}
+										]
+									}
+								},
+								{
+									"name": "Copy data1",
+									"type": "Copy",
+									"dependsOn": [
+										{
+											"activity": "If Condition1",
+											"dependencyConditions": [
+												"Succeeded"
+											]
+										}
+									],
+									"policy": {
+										"timeout": "7.00:00:00",
+										"retry": 0,
+										"retryIntervalInSeconds": 30,
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"source": {
+											"type": "DelimitedTextSource",
+											"storeSettings": {
+												"type": "AzureDataLakeStoreReadSettings",
+												"recursive": true,
+												"wildcardFileName": "*/csv"
+											},
+											"formatSettings": {
+												"type": "DelimitedTextReadSettings"
+											}
+										},
+										"sink": {
+											"type": "DelimitedTextSink",
+											"storeSettings": {
+												"type": "AzureDataLakeStoreWriteSettings"
+											},
+											"formatSettings": {
+												"type": "DelimitedTextWriteSettings",
+												"quoteAllText": true,
+												"fileExtension": ".txt"
+											}
+										},
+										"enableStaging": false,
+										"translator": {
+											"type": "TabularTranslator",
+											"typeConversion": true,
+											"typeConversionSettings": {
+												"allowDataTruncation": true,
+												"treatBooleanAsNumber": false
+											}
+										}
+									},
+									"inputs": [
+										{
+											"referenceName": "CommodityRead",
+											"type": "DatasetReference",
+											"parameters": {
+												"LastDays": {
+													"value": "@int(variables('VarDays'))",
+													"type": "Expression"
+												}
+											}
+										}
+									],
+									"outputs": [
+										{
+											"referenceName": "CommodityWriteDS",
+											"type": "DatasetReference",
+											"parameters": {
+												"LastDaysW": {
+													"value": "@int(variables('VarDays'))",
+													"type": "Expression"
+												}
+											}
+										}
+									]
+								},
+								{
+									"name": "Set variable 2",
+									"type": "SetVariable",
+									"dependsOn": [
+										{
+											"activity": "Copy data1",
+											"dependencyConditions": [
+												"Succeeded"
+											]
+										}
+									],
+									"userProperties": [],
+									"typeProperties": {
+										"variableName": "VarDecDays",
+										"value": {
+											"value": "@string(sub(int(variables('VarDays')),1))",
+											"type": "Expression"
+										}
+									}
+								},
+								{
+									"name": "Set variable3",
+									"type": "SetVariable",
+									"dependsOn": [
+										{
+											"activity": "Set variable 2",
+											"dependencyConditions": [
+												"Succeeded"
+											]
+										}
+									],
+									"userProperties": [],
+									"typeProperties": {
+										"variableName": "IsActive",
+										"value": {
+											"value": "@less(int(variables('VarDecDays')),1)",
+											"type": "Expression"
+										}
+									}
+								}
+							],
+							"timeout": "7.00:00:00"
+						}
+					}
+				],
+				"parameters": {
+					"DaysP": {
+						"type": "int",
+						"defaultValue": 5
+					}
+				},
+				"variables": {
+					"VarDays": {
+						"type": "String",
+						"defaultValue": "0"
+					},
+					"VarDecDays": {
+						"type": "String",
+						"defaultValue": "0"
+					},
+					"IsActive": {
+						"type": "Boolean"
+					}
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/CommodityRead')]",
+				"[concat(variables('factoryId'), '/datasets/CommodityWriteDS')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/CommodityRead')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureDataLakeStoreLS",
+					"type": "LinkedServiceReference"
+				},
+				"parameters": {
+					"LastDays": {
+						"type": "int"
+					}
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureDataLakeStoreLocation",
+						"folderPath": {
+							"value": "@concat('commodityrawdata/', formatDateTime(adddays(utcnow(), mul(dataset().LastDays, -1)), 'dd/MM/yyyy'))",
+							"type": "Expression"
+						}
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AzureDataLakeStoreLS')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/CommodityWriteDS')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureDataLakeStoreLS",
+					"type": "LinkedServiceReference"
+				},
+				"parameters": {
+					"LastDaysW": {
+						"type": "int"
+					}
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureDataLakeStoreLocation",
+						"folderPath": {
+							"value": "@concat('commoditydata/output/', formatDateTime(adddays(utcnow(), mul(dataset().LastDaysW, -1)), 'dd/MM/yyyy'))",
+							"type": "Expression"
+						}
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AzureDataLakeStoreLS')]"
 			]
 		}
 	]
