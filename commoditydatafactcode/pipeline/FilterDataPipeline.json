@@ -20,7 +20,7 @@
 							"userProperties": [],
 							"typeProperties": {
 								"expression": {
-									"value": "@equals(variables('VarDays'),0)",
+									"value": "@equals(variables('VarDays'), '0')\n",
 									"type": "Expression"
 								},
 								"ifFalseActivities": [
@@ -193,8 +193,7 @@
 				"defaultValue": "0"
 			},
 			"IsActive": {
-				"type": "Boolean",
-				"defaultValue": false
+				"type": "Boolean"
 			}
 		},
 		"annotations": []
