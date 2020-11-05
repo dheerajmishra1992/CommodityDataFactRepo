@@ -113,7 +113,7 @@
 									"type": "DatasetReference",
 									"parameters": {
 										"LastDays": {
-											"value": "@int(variables('VarDays'))",
+											"value": "@pipeline().parameters.DaysP",
 											"type": "Expression"
 										}
 									}
