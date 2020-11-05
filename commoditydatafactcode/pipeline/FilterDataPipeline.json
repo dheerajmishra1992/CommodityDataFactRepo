@@ -9,7 +9,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"expression": {
-						"value": "@equals(variables('VarDays'),0)",
+						"value": "@variables('IsActive')",
 						"type": "Expression"
 					},
 					"activities": [
