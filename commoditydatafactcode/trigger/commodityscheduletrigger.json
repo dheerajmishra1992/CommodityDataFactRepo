@@ -9,12 +9,6 @@
 					"referenceName": "httptodatalake",
 					"type": "PipelineReference"
 				}
-			},
-			{
-				"pipelineReference": {
-					"referenceName": "commoditybackuppipeline",
-					"type": "PipelineReference"
-				}
 			}
 		],
 		"type": "ScheduleTrigger",
