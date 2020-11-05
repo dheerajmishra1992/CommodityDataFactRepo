@@ -53,7 +53,7 @@
 						"userProperties": [],
 						"typeProperties": {
 							"expression": {
-								"value": "@equals(variables('VarDays'),0)",
+								"value": "@variables('IsActive')",
 								"type": "Expression"
 							},
 							"activities": [
@@ -581,7 +581,7 @@
 					"location": {
 						"type": "AzureDataLakeStoreLocation",
 						"folderPath": {
-							"value": "@concat('commodityrawdata/', formatDateTime(adddays(utcnow(), mul(dataset().LastDays, -1)), 'dd/MM/yyyy'))",
+							"value": "@concat('commodityrawdata/', formatDateTime(adddays(utcnow(), mul(dataset().LastDays, -1)), 'yyyy/MM/dd-MM-yyyy'))",
 							"type": "Expression"
 						}
 					},
@@ -654,7 +654,7 @@
 					"location": {
 						"type": "AzureDataLakeStoreLocation",
 						"folderPath": {
-							"value": "@concat('commoditydata/output/', formatDateTime(adddays(utcnow(), mul(dataset().LastDaysW, -1)), 'dd/MM/yyyy'))",
+							"value": "@concat('commoditydata/output/', formatDateTime(adddays(utcnow(), mul(dataset().LastDaysW, -1)), 'yyyy/MM/dd-MM-yyyy'))",
 							"type": "Expression"
 						}
 					},
@@ -918,6 +918,25 @@
 				"[concat(variables('factoryId'), '/datasets/ds_inputcommodityfolder')]",
 				"[concat(variables('factoryId'), '/datasets/lastncommoditydataset')]"
 			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/integrationRuntimeDataLake')]",
+			"type": "Microsoft.DataFactory/factories/integrationRuntimes",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"type": "Managed",
+				"typeProperties": {
+					"computeProperties": {
+						"location": "AutoResolve",
+						"dataFlowProperties": {
+							"computeType": "General",
+							"coreCount": 8,
+							"timeToLive": 0
+						}
+					}
+				}
+			},
+			"dependsOn": []
 		}
 	]
 }
