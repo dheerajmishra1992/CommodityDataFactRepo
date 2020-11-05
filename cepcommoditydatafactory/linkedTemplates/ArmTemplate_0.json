@@ -370,7 +370,7 @@
 						"userProperties": [],
 						"typeProperties": {
 							"expression": {
-								"value": "@variables('IsActive')",
+								"value": "@bool(variables('IsActive'))",
 								"type": "Expression"
 							},
 							"activities": [
@@ -428,7 +428,7 @@
 										}
 									],
 									"policy": {
-										"timeout": "7.00:00:00",
+										"timeout": "2.00:00:00",
 										"retry": 0,
 										"retryIntervalInSeconds": 30,
 										"secureOutput": false,
@@ -508,7 +508,7 @@
 									"typeProperties": {
 										"variableName": "VarDecDays",
 										"value": {
-											"value": "@string(sub(int(variables('VarDays')),1))",
+											"value": "@string(sub(int(variables('VarDays')), 1))",
 											"type": "Expression"
 										}
 									}
@@ -528,7 +528,7 @@
 									"typeProperties": {
 										"variableName": "IsActive",
 										"value": {
-											"value": "@less(int(variables('VarDecDays')),1)",
+											"value": "@less(int(variables('VarDecDays')), 1)",
 											"type": "Expression"
 										}
 									}
