@@ -16,7 +16,7 @@
 			"location": {
 				"type": "AzureDataLakeStoreLocation",
 				"folderPath": {
-					"value": "@concat('commoditydata/output/', formatDateTime(adddays(utcnow(), mul(dataset().LastDaysW, -1)), 'yyyy/MM/dd-MM-yyyy'))",
+					"value": "@concat('commoditydata/output/', formatDateTime(adddays(utcnow(), mul(dataset().LastDaysW, -1))))",
 					"type": "Expression"
 				}
 			},
