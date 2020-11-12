@@ -310,7 +310,7 @@
 				"typeProperties": {
 					"location": {
 						"type": "AzureDataLakeStoreLocation",
-						"folderPath": "aggregatedcommoditydata"
+						"folderPath": "commoditydata/Output"
 					},
 					"columnDelimiter": ",",
 					"escapeChar": "\\",
@@ -718,7 +718,7 @@
 							"name": "AggregateCommodity"
 						}
 					],
-					"script": "parameters{\n\tlastdays as string\n}\nsource(output(\n\t\ttimestamp as string,\n\t\tstate as string,\n\t\tdistrict as string,\n\t\tmarket as string,\n\t\tcommodity as string,\n\t\tvariety as string,\n\t\tarrival_date as string,\n\t\tmin_price as string,\n\t\tmax_price as string,\n\t\tmodal_price as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false,\n\tmodifiedAfter: (addDays(currentUTC(),-toInteger($lastdays))),\n\tmodifiedBefore: (addDays(currentUTC(),0)),\n\twildcardPaths:['commodityrawdata/**/*.csv']) ~> dsinputcommodity\ndsinputcommodity aggregate(groupBy(commodity),\n\tmin_price = min(toInteger(min_price)),\n\t\tmax_price = max(toInteger(max_price)),\n\t\tmodal_price = avg(toInteger(modal_price))) ~> AggregateCommodity\nAggregateCommodity sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tpartitionFileNames:[(\"AggregatedCommodityDataofLast{$lastdays}DaysFrom_{left(toString(addDays(currentUTC(),-toInteger($lastdays))),10)}.csv\")],\n\tpartitionBy('hash', 1),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> lastncommoditysink"
+					"script": "parameters{\n\tlastdays as string\n}\nsource(output(\n\t\ttimestamp as string,\n\t\tstate as string,\n\t\tdistrict as string,\n\t\tmarket as string,\n\t\tcommodity as string,\n\t\tvariety as string,\n\t\tarrival_date as string,\n\t\tmin_price as string,\n\t\tmax_price as string,\n\t\tmodal_price as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false,\n\tmodifiedAfter: (addDays(currentUTC(),-toInteger($lastdays))),\n\tmodifiedBefore: (addDays(currentUTC(),0)),\n\twildcardPaths:['commodityrawdata/**/*.csv']) ~> dsinputcommodity\ndsinputcommodity aggregate(groupBy(market,\n\t\tcommodity),\n\tmin_price = min(toInteger(min_price)),\n\t\tmax_price = max(toInteger(max_price)),\n\t\tmodal_price = avg(toInteger(modal_price))) ~> AggregateCommodity\nAggregateCommodity sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tpartitionFileNames:[(\"AggregatedCommodityDataofLast{$lastdays}DaysFrom_{left(toString(addDays(currentUTC(),-toInteger($lastdays))),10)}.csv\")],\n\tpartitionBy('hash', 1),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> lastncommoditysink"
 				}
 			},
 			"dependsOn": [
@@ -763,7 +763,8 @@
 							"compute": {
 								"coreCount": 8,
 								"computeType": "General"
-							}
+							},
+							"traceLevel": "Fine"
 						}
 					}
 				],
