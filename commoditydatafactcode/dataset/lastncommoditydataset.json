@@ -10,7 +10,7 @@
 		"typeProperties": {
 			"location": {
 				"type": "AzureDataLakeStoreLocation",
-				"folderPath": "aggregatedcommoditydata"
+				"folderPath": "commoditydata/Output"
 			},
 			"columnDelimiter": ",",
 			"escapeChar": "\\",
